@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+ :root {
+      --fg-color: #3c3836; /* Default (light mode) */
+      --bg-color-reverse: #ebdbb2;
+      --fg-color-reverse: #fbf1c7;
+      --bg-color-3: #bdae93;
+      --bg-color-3-switch: #665c54;
+      --bg-color-hard: #f9f5d7;
+      --gray: #7c6f64;
+      --orange: #d65d0e;
+      --red: #cc241d;
+      --green: #98971a;
+      --yellow: #d79921;
+      --blue: #458588;
+      --purple: #b16286;
+      --aqua: #689d6a;
+    }
+
+
+ body {
+      background-color: var(--bg-color-reverse);
+      color: var(--fg-color);
+    }
+
