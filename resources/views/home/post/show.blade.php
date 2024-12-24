@@ -8,7 +8,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-col items-center">
                 <div class='flex flex-col space-y-2 my-2'>
-                 <div class='border border-gray-400 p-2'>
+                 <div class='shadow-sm p-2'>
                     <div class='flex flex-row space-x-2 items-center'>
                         <img src="https://placehold.co/50x50" class='rounded-full'>
                         <span class='block mb-2'>{{ $post->user->name }}</span>

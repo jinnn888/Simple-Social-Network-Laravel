@@ -33,12 +33,22 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'image' => ['required', 'image', 'mimes:jpeg,png']
         ]);
+
+
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+        $filename = $file->getClientOriginalName() . '_' . time() . '.' . $extension;
+
+        $path = $file->storeAs('users-profile/', $filename, 'public');
+
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'image' => $path
         ]);
 
         event(new Registered($user));

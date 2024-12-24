@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
-
+use App\Http\Controllers\SocialiteController;
+use App\Models\Post;
 
 Route::get('/', function () {
     return view('welcome');
@@ -13,7 +14,9 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('dashboard', [
+            'posts' => Post::orderBy('created_at', 'desc')->get()
+        ]);
     })->name('dashboard');
 
     // Post
