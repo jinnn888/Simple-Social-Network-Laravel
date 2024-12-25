@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\UserController;
 use App\Models\Post;
 
 Route::get('/', function () {
@@ -25,6 +26,9 @@ Route::middleware(['auth', 'verified'])->group(function() {
    
     // Likes
     Route::post('/like', [LikeController::class, 'like'])->name('like');
+
+    // User
+    Route::get('/people', [UserController::class, 'index'])->name('users.index');
 });
 
 Route::middleware('auth')->group(function () {
