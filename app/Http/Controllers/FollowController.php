@@ -18,8 +18,9 @@ class FollowController extends Controller
         // Check if the user is not already following 
         if (!auth()->user()->following()->where('following_id', $user->id)->exists()) {
             auth()->user()->following()->attach($user->id);
-
+            $user->followers()->attach(auth()->user()->id);
         }
+
 
         return redirect()->back()->with('success', 'You are now following ' . $user->name);
     }
@@ -27,6 +28,7 @@ class FollowController extends Controller
 
     public function unfollow(User $user) {
         auth()->user()->following()->detach($user->id);
+        $user->followers()->detach(auth()->user()->id);
 
         return redirect()->back()->with('success', 'Unfollowed' . $user->name);
 

@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Requests\Post\StoreRequest;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -40,10 +41,11 @@ class PostController extends Controller
                 "content" => $request->content,
                 "image" => $path
             ]);
+            return redirect()->back()->with('success', 'Thanks for sharing! Your post is up.');
         }
 
         auth()->user()->posts()->create([
-                "content" => $request->content,
+            "content" => $request->content,
         ]);    
 
 
@@ -65,7 +67,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        Gate::authorize('update', $post);
+        return view('home.post.edit', compact('post'));
     }
 
     /**
@@ -73,7 +76,31 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'content' => 'required'
+        ]);
+        if ($file = $request->file('image')) {
+            $extension = $file->getClientOriginalExtension();
+            $filename = $file->getClientOriginalName() . time() . '_.' . $extension;
+            $path = $file->storeAs('post/images', $filename, 'public');
+            
+            $post->update([
+                "content" => $request->content,
+                "image" => $path
+            ]);
+            return redirect()->back()->with('success', 'Your post is updated.');
+
+        }
+
+        $post->update([
+            "content" => $request->content,
+        ]);
+
+
+        return redirect()->route('dashboard')->with('success', 'Your post is updated.');
+
+
+
     }
 
     /**
