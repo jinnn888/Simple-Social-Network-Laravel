@@ -42,7 +42,7 @@
         </div>
         {{-- Comment Modal --}}
         <div id="comment-modal-{{ $post->id }}" style='display: none' class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" >
-          <div class="relative w-full max-w-lg bg-white rounded-lg shadow-lg">
+          <div class="relative w-10/12   bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
             <div class="flex items-center justify-between px-4 py-2 border-b">
               <h2 class="text-lg font-semibold text-gray-800">Comment Section</h2>
@@ -74,7 +74,7 @@
         @foreach ($comments as $comment)
         <div class='flex flex-col border p-2 mt-4'>
             <div class='flex flex-row space-x-2 items-center'>
-                <span class='text-sm text-gray-800'>{{ $comment->user->name }}</span>
+                <span class=' text-gray-800'>{{ $comment->user->name }}</span>
                 <span class='text-sm text-gray-600'> {{ $comment->created_at->diffInMinutes() < 1 ? 'Just now': $comment->created_at->diffForHumans() }}</span>
             </div>
             <hr>
