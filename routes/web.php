@@ -7,6 +7,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FollowController;
 use App\Models\Post;
 
 Route::get('/', function () {
@@ -29,6 +30,12 @@ Route::middleware(['auth', 'verified'])->group(function() {
 
     // User
     Route::get('/people', [UserController::class, 'index'])->name('users.index');
+
+    // Follow 
+    Route::post('/follow/{user}', [FollowController::class, 'follow'])->name('follow');
+    Route::post('/unfollow/{user}', [FollowController::class, 'unfollow'])->name('unfollow');
+    Route::get('/following', [FollowController::class, 'index'])->name('follow.index');
+
 });
 
 Route::middleware('auth')->group(function () {

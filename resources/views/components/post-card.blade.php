@@ -7,7 +7,11 @@
         <div class='flex flex-row space-x-4'>
             <img src="{{ Storage::url($post->user->image) }}" class='rounded-full overflow-hidden w-[50px] h-[50px] object-cover'>
             <div class='flex flex-col'>
-                <span class='block'>{{ $post->user->name }}</span>
+                <span class='block'>{{ $post->user->name }} 
+                    @if (auth()->user()->following->contains($post->user->id))
+                        <span class='text-gray-500 text-sm'>following</span>
+                    @endif
+                </span>
                 <span class='text-sm text-gray-500'> {{ $post->created_at->diffInMinutes() < 1 ? 'Just now': $post->created_at->diffForHumans() }}</span>
 
             </div>
@@ -56,35 +60,35 @@
       <!-- Modal Content -->
       <div class="px-4 py-4 max-h-80 overflow-y-auto" >
         {{-- Comment Box --}}
-       <div >
-        <form action='{{ route('comments.store') }}' method="POST">
-            @csrf
-            <input type="hidden" name="post_id" value="{{ $post->id }}">
-            <label for='comment'>Write a comment</label>
-            <div class='flex flex-row items-center space-x-2'>
-                <textarea id='comment' name='content' class='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full'></textarea>
-                <button type='submit' class='bg-gray-900 p-2 w-fit px-4 rounded text-white'><i class="fas fa-paper-plane"></i> </button>
+        <div >
+            <form action='{{ route('comments.store') }}' method="POST">
+                @csrf
+                <input type="hidden" name="post_id" value="{{ $post->id }}">
+                <label for='comment'>Write a comment</label>
+                <div class='flex flex-row items-center space-x-2'>
+                    <textarea id='comment' name='content' class='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full'></textarea>
+                    <button type='submit' class='bg-gray-900 p-2 w-fit px-4 rounded text-white'><i class="fas fa-paper-plane"></i> </button>
+                </div>
+
+                <span class='text-gray-500 text-sm'>Total comments: {{ $comments->count() }}</span>
+
+            </form>
+
+            {{-- {{ dd($comments) }} --}}
+            @foreach ($comments as $comment)
+            <div class='flex flex-col border p-2 mt-4'>
+                <div class='flex flex-row space-x-2 items-center'>
+                    <span class=' text-gray-800'>{{ $comment->user->name }}</span>
+                    <span class='text-sm text-gray-600'> {{ $comment->created_at->diffInMinutes() < 1 ? 'Just now': $comment->created_at->diffForHumans() }}</span>
+                </div>
+                <hr>
+                <p class='text-gray-800'>{{ $comment->content }}</p>
             </div>
 
-            <span class='text-gray-500 text-sm'>Total comments: {{ $comments->count() }}</span>
+            @endforeach
 
-        </form>
-
-        {{-- {{ dd($comments) }} --}}
-        @foreach ($comments as $comment)
-        <div class='flex flex-col border p-2 mt-4'>
-            <div class='flex flex-row space-x-2 items-center'>
-                <span class=' text-gray-800'>{{ $comment->user->name }}</span>
-                <span class='text-sm text-gray-600'> {{ $comment->created_at->diffInMinutes() < 1 ? 'Just now': $comment->created_at->diffForHumans() }}</span>
-            </div>
-            <hr>
-            <p class='text-gray-800'>{{ $comment->content }}</p>
         </div>
-
-        @endforeach
-
     </div>
-</div>
 
 {{-- <!-- Modal Footer -->
 <div class="flex justify-end px-4 py-2 border-t">
@@ -101,25 +105,25 @@
 @endif
 
 @push('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.toggle-comment').on('click', function() {
-                console.log('Hello, world')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.toggle-comment').on('click', function() {
+            console.log('Hello, world')
 
-                const postId = $(this).data('post-id');
-                const commentBox = $(`#comment-modal-${postId}`);
+            const postId = $(this).data('post-id');
+            const commentBox = $(`#comment-modal-${postId}`);
 
 
 
-                $(`#comment-modal-${postId}`).fadeIn();
+            $(`#comment-modal-${postId}`).fadeIn();
 
-                $(`#close-modal-${postId}`).on('click', function() {
-                    $(`#comment-modal-${postId}`).fadeOut();
-                })
-
+            $(`#close-modal-${postId}`).on('click', function() {
+                $(`#comment-modal-${postId}`).fadeOut();
             })
 
         })
 
-    </script>
+    })
+
+</script>
 @endpush
