@@ -4,7 +4,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-col items-center">
                 <h2 class='mt-2 font-bold text-2xl'>People</h2>
                 <hr class='bg-gray-900 my-2'>
-                <div class='my-4 flex flex-wrap space-x-2'>
+                <div class='flex flex-wrap space-x-2'>
+                    @if ($users->count() > 0)
                     @foreach ($users as $user)
                     <div class='flex flex-col space-y-2 rounded border p-2'>
                         <img src="{{ Storage::url($user->image) }}" class='w-[250px] h-[250px] object-cover'>
@@ -24,6 +25,9 @@
                         </div>
                     </div>
                     @endforeach
+                    @else
+                    <span class='text-gray-600'>No people  to display.</span>
+                    @endif
                 </div>
             </div>
         </div>

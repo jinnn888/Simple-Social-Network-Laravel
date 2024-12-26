@@ -19,9 +19,11 @@
         <div class='flex flex-col my-2 '>
             <span>{{ $post->content }}</span>
         </div>
-        <img class='p-2 w-[300px] h-[350px] object-contain bg-gray-50' src="{{ asset(Storage::url($post->image)) }}">
+        @if ($post->image)
+            <img class=' w-[500px] h-[350px] object-contain bg-gray-100' src="{{ asset(Storage::url($post->image)) }}">
+        @endif
 
-        <div class="flex flex-row justify-between space-x-2 p-2">
+        <div class="flex flex-row justify-between md:justify-start space-x-4 p-2">
             {{--  Like  --}}
             <form action='{{ route('like') }}' method='POST'>
                 @csrf
@@ -35,7 +37,7 @@
 
             </form>
             {{-- href="{{ route('posts.show', $post->id) }}" --}}
-            <span class='cursor-pointer border toggle-comment' data-post-id='{{ $post->id }}'>
+            <span class='cursor-pointer toggle-comment' data-post-id='{{ $post->id }}'>
                 <i  class="far  fa-comment" ></i>
                 <span>{{ $comments->count() }}</span>
 

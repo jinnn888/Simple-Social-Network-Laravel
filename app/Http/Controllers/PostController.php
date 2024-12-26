@@ -36,12 +36,16 @@ class PostController extends Controller
             $extension = $file->getClientOriginalExtension();
             $filename = $file->getClientOriginalName() . time() . '_.' . $extension;
             $path = $file->storeAs('post/images', $filename, 'public');
+            auth()->user()->posts()->create([
+                "content" => $request->content,
+                "image" => $path
+            ]);
         }
 
         auth()->user()->posts()->create([
-            "content" => $request->content,
-            "image" => $path
-        ]);
+                "content" => $request->content,
+        ]);    
+
 
         return redirect()->back()->with('success', 'Thanks for sharing! Your post is up.');
     }

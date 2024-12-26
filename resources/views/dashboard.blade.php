@@ -2,8 +2,8 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-col items-center">
-                <div class='flex flex-col space-y-2 my-2'>
-                    <div class="p-2 cursor-pointer border rounded-lg toggle-post">
+                <div class='flex flex-col space-y-2 my-2 w-full p-4'>
+                    <div class="p-2 cursor-pointer border rounded-lg toggle-post w-full">
                         <span class='text-gray-500 text-sm'>Whats on your mind? </span>
                     </div>
                     <div class='post-container'>
