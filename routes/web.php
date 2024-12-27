@@ -17,7 +17,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/dashboard', function () {
         return view('dashboard', [
-            'posts' => Post::orderBy('created_at', 'desc')->get()
+            'posts' => Post::orderBy('created_at', 'desc')->get(),
         ]);
     })->name('dashboard');
 

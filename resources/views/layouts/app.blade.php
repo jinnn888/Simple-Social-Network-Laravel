@@ -35,6 +35,14 @@
             <a href='{{ route('users.profile', auth()->user()->id ) }}' class='p-12 flex flex-col space-y-2  items-center bg-white h-fit rounded mt-4 shadow-sm'>
                 <img src="{{ Storage::url( Auth::user()->image) }}" class='rounded-full overflow-hidden w-[150px] h-[150px] object-cover '>
                 <h2 class='text-lg font-semibold'>{{ auth()->user()->name }}</h2>
+                <span class='text-md'>{{ auth()->user()->email }}</span>
+
+                    {{-- Followers/Following/Post Count --}}
+                    <div class='flex flex-row gap-2 text-xl'>
+                        <span>Followers {{ auth()->user()->followers()->count() }} |</span>
+                        <span>Following {{ auth()->user()->followings()->count() }} |</span>
+                        <span>Posts {{ auth()->user()->posts()->count() }}</span>
+                    </div>
  
             </a>
 
