@@ -18,7 +18,7 @@ class FollowController extends Controller
     if (auth()->user()->id != $user->id && !auth()->user()->followings->contains($user->id)) {
         auth()->user()->followings()->attach($user->id);
         
-        $user->followers()->attach(auth()->user()->id);
+        // $user->followers()->attach(auth()->user()->id);
         
         return redirect()->back()->with('success', 'You are now following ' . $user->name);
     }

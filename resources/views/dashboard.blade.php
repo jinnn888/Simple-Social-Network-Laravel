@@ -73,6 +73,10 @@
 
         })
     })
+
+    $('form').on('submit', function() {
+        $('#submit-btn').prop('disabled', true).text('Publishing...');
+    })
     
 
     </script>

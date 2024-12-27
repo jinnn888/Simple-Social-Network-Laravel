@@ -19,7 +19,7 @@
                     @if (!auth()->user()->followings->contains($post->user->id))
                         <form action='{{ route('follow', $post->user->id) }}' method='POST'>
                             @csrf
-                            <button class='ml-2 text-gray-600 text-sm'>Follow</button>
+                            <button type='submit' class='ml-2 text-gray-600 text-sm'>Follow</button>
                         </form>
                     @endif
                 @endcannot

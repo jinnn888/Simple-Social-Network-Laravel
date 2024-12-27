@@ -1,6 +1,6 @@
 {{-- Comment Modal --}}
 <div id="comment-modal-{{ $post->id }}" style="display: none" {{ $attributes->merge(['class' => 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50']) }}>
-    <div class="relative w-10/12 bg-white rounded-lg shadow-lg">
+    <div class="relative w-10/12 bg-white rounded-lg shadow-lg ">
         <!-- Modal Header -->
         <div class="flex items-center justify-between px-4 py-2 border-b">
             <h2 class="text-lg font-semibold text-gray-800">Comment Section</h2>
@@ -12,7 +12,7 @@
         </div>
 
         <!-- Modal Content -->
-        <div class="px-4 py-4 max-h-80 overflow-y-auto">
+        <div class="px-4 py-4 h-[90vh] overflow-y-auto">
             {{-- Comment Box --}}
             <form id='comment-form-{{ $post->id }}' data-post-id='{{ $post->id }}'>
                 {{-- @csrf --}}
@@ -91,11 +91,22 @@
                                 <div class="flex flex-col border p-2 mt-4">
                     <div class="flex flex-row space-x-2 items-center">
                         <a href="/user/profile/${comment.user.id}">
-                            <img class="w-[50px] object-cover bg-gray-100 " src="/storage/${comment.user.image}">
+                            <img class="w-[50px] h-[50px] object-cover bg-gray-100 " src="/storage/${comment.user.image}">
                         </a>
                         <span class="text-gray-800 flex flex-row items-center gap-2 mb-2">
                             ${comment.user.name}
-                           
+                            <span class="text-sm text-gray-600">
+                                ${ new Date(comment.created_at).toLocaleString('en-US', { 
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                    second: 'numeric',
+                                    hour12: true 
+                                })}
+                            </span>
+                        </span> 
                         </div>
                         <p class="text-gray-800">${comment.content}</p>
                     </div>

@@ -38,7 +38,7 @@
                 <span class='text-md'>{{ auth()->user()->email }}</span>
 
                     {{-- Followers/Following/Post Count --}}
-                    <div class='flex flex-row gap-2 text-xl'>
+                    <div class='flex flex-row text-xl'>
                         <span>Followers {{ auth()->user()->followers()->count() }} |</span>
                         <span>Following {{ auth()->user()->followings()->count() }} |</span>
                         <span>Posts {{ auth()->user()->posts()->count() }}</span>

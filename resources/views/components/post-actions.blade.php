@@ -27,6 +27,7 @@
             type: 'GET',
             dataType: 'json',
             success: function(response) {
+                console.log(response)
                 $('.comment-count-{{ $post->id }}').html(`${response.length}`);
             },
         })
