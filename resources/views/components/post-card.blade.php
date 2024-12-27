@@ -48,7 +48,7 @@
     @endif
 
     {{-- Like, Comment, Share --}}
-    <x-post-actions :post="$post" :comments="$comments" toggler_class='toggle-comment' data-post-id="{{ $post->id }}"/>
+    <x-post-actions :post="$post" :comments="$comments" data-post-id="{{ $post->id }}"/>
 
     {{-- Comment Box Component --}}
     <x-comment-box :post="$post" :comments="$comments" />
@@ -56,12 +56,9 @@
 @endif
 
 @push('scripts')
-
 <script type="text/javascript">
 $(document).ready(function() {
-    $('.toggle-comment').on('click', function() {
-        console.log('Hello, world')
-
+    $('.comment_toggler').on('click', function() {
         const postId = $(this).data('post-id');
         const commentBox = $(`#comment-modal-${postId}`);
 

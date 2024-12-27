@@ -1,7 +1,3 @@
-@props([
-    'toggler_class' => null
-])
-
 <div class="flex flex-row justify-between md:justify-start space-x-4 p-2">
     {{-- Like --}}
     <form action='{{ route('like') }}' method='POST'>
@@ -14,7 +10,7 @@
         @endif
     </form>
     {{-- Comment button --}}
-    <span class='cursor-pointer {{ $toggler_class }}' data-post-id='{{ $post->id }}'>
+    <span class='cursor-pointer comment_toggler' data-post-id='{{ $post->id }}'>
         <i class="far fa-comment"></i>
         <span>{{ $comments->count() }}</span>
     </span>

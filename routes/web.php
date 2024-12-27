@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
     // Post
     Route::resource('posts', PostController::class);
     Route::resource('comments', CommentController::class);
+    Route::get('comments-fetch/{id}', [CommentController::class, 'fetch'])->name('comments.fetch');
    
     // Likes
     Route::post('/like', [LikeController::class, 'like'])->name('like');

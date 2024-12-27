@@ -14,12 +14,12 @@
         <!-- Modal Content -->
         <div class="px-4 py-4 max-h-80 overflow-y-auto">
             {{-- Comment Box --}}
-            <form action="{{ route('comments.store') }}" method="POST">
-                @csrf
-                <input type="hidden" name="post_id" value="{{ $post->id }}">
+            <form id='comment-form-{{ $post->id }}' data-post-id='{{ $post->id }}'>
+                {{-- @csrf --}}
+                <input type="hidden" id="post_id" value="{{ $post->id }}">
                 <label for="comment" class="block text-sm font-medium text-gray-700">Write a comment</label>
                 <div class="flex flex-row items-center space-x-2 mt-2">
-                    <textarea id="comment" name="content" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full" rows="3"></textarea>
+                    <textarea id="content-{{ $post->id }}"  class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full" rows="3"></textarea>
                     <button type="submit" class="bg-gray-900 p-2 w-fit px-4 rounded text-white">
                         <i class="fas fa-paper-plane"></i>
                     </button>
@@ -29,7 +29,10 @@
             </form>
 
             {{-- Comments List --}}
-            @foreach ($comments as $comment)
+            <div class='comment-box-{{ $post->id }}'>
+                
+            </div>
+            {{-- @foreach ($comments as $comment)
                 <div class="flex flex-col border p-2 mt-4">
                     <div class="flex flex-row space-x-2 items-center">
                         <a href="{{ route('users.profile', $comment->user->id) }}">
@@ -42,7 +45,99 @@
                     </div>
                     <p class="text-gray-800">{{ $comment->content }}</p>
                 </div>
-            @endforeach
+            @endforeach --}}
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}"}
+            })
+
+            const target = $('#comment-modal-{{ $post->id }}')[0];
+            let isModalVisible = false;
+            if (target) {
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        const isCurrentlyVisible = getComputedStyle(target).display !== 'none';
+                        if (isCurrentlyVisible && !isModalVisible) {
+                            isModalVisible = true; // Update state
+                            fetchComments('{{ $post->id }}'); // Fetch comments when modal becomes visible
+                        } else if (!isCurrentlyVisible) {
+                            isModalVisible = false; // Reset state when modal is hidden
+                        }
+                    });
+                });
+
+                observer.observe(target, { attributes: true, attributeFilter: ['style'] });
+            } else {
+                console.error('Target element not found.');
+            }
+
+            function fetchComments(postId) {
+                $.ajax({
+                    url: '{{ route('comments.fetch', ':id' ) }}'.replace(':id', postId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response){
+                        $(`.comment-box-{{ $post->id }}`).empty();
+                        console.log(response)
+                        $.each(response, function(key, comment) {
+                            console.log(key, comment)
+                            $(`.comment-box-{{ $post->id }}`).append(`
+                                <div class="flex flex-col border p-2 mt-4">
+                    <div class="flex flex-row space-x-2 items-center">
+                        <a href="/user/profile/${comment.user.id}">
+                            <img class="w-[50px] object-cover bg-gray-100 " src="/storage/${comment.user.image}">
+                        </a>
+                        <span class="text-gray-800 flex flex-row items-center gap-2 mb-2">
+                            ${comment.user.name}
+                           
+                        </div>
+                        <p class="text-gray-800">${comment.content}</p>
+                    </div>
+
+                            `)
+                        })
+                    },
+                    error: function(xhr, status, error){
+                        console.log(xhr.responseJSON, status, error)
+                        console.log('something went wrong.')
+                    }   
+                })
+            }
+
+            $('#comment-form-{{ $post->id }}').on('submit', function(e) {
+                e.preventDefault()
+                console.log($(this).data('post-id'))
+                const postId = $('#comment-form-{{ $post->id }}').data('post-id')
+                // const content = $(`#content-${postId}`);
+
+                const content = $(`#content-${postId}`).val();
+                console.log(postId, content)
+                $.ajax({
+                    url: '{{ route('comments.store') }}',
+                    type: 'POST',
+                    data: {
+                        post_id: postId,
+                        content: content
+                    },
+                    success: function(response) {
+                        fetchComments(postId);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseJSON)
+                        console.log(status)
+                    }
+                })
+
+            })
+
+
+        })
+    </script>
+
+@endpush

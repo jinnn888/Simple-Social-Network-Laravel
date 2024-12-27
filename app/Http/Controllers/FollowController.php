@@ -29,7 +29,7 @@ class FollowController extends Controller
 
 
     public function unfollow(User $user) {
-        auth()->user()->following()->detach($user->id);
+        auth()->user()->followings()->detach($user->id);
         $user->followers()->detach(auth()->user()->id);
 
         return redirect()->back()->with('success', 'Unfollowed' . $user->name);

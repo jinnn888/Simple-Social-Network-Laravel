@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class CommentController extends Controller
 {
@@ -15,6 +16,16 @@ class CommentController extends Controller
         //
     }
 
+    public function fetch(string $id) {
+        $post = Post::with(['comments.user' => function($query) {
+            $query->orderBy('created_at', 'desc');
+        }])->where('id', $id)->first();
+
+        $comments = $post->comments;
+
+        return response()->json($comments);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -22,7 +33,6 @@ class CommentController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -38,7 +48,7 @@ class CommentController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->back();
+        return response()->json('Comment posted.');
 
     }
 
