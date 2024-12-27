@@ -30,13 +30,13 @@
         @endisset
 
         <!-- Page Content -->
-        <div class='flex flex-row border border-2 justify-center'>
+        <div class='flex flex-col md:flex-row border border-2 justify-center p-4'>
             {{-- Sidebar ( Profile Card) --}}
-            <div class='p-12 flex flex-col space-y-2  items-center bg-white h-fit rounded mt-4 shadow-sm'>
+            <a href='{{ route('users.profile', auth()->user()->id ) }}' class='p-12 flex flex-col space-y-2  items-center bg-white h-fit rounded mt-4 shadow-sm'>
                 <img src="{{ Storage::url( Auth::user()->image) }}" class='rounded-full overflow-hidden w-[150px] h-[150px] object-cover '>
                 <h2 class='text-lg font-semibold'>{{ auth()->user()->name }}</h2>
  
-            </div>
+            </a>
 
                 <main class='flex-grow'>
                     {{ $slot }}

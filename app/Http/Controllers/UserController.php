@@ -12,4 +12,8 @@ class UserController extends Controller
             'users' => User::where('email', '!=', auth()->user()->email)->get()
         ]);
     }
+    public function profile(User $user) {
+        $posts = $user->posts()->orderBy('created_at', 'desc')->get();
+        return view('home.user.profile', compact('user', 'posts'));
+    }
 }

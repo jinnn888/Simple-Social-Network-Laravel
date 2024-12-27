@@ -5,9 +5,9 @@
                 <h2 class='mt-2 font-bold text-2xl'>Following</h2>
                 <hr class='bg-gray-900 my-2'>
                 <div class='flex flex-wrap space-x-2'>
-                    @if ($following->count() > 0)
-                    @foreach ($following as $user)
-                        <div class='flex flex-col space-y-2 rounded border'>
+                    @if ($followings->count() > 0)
+                    @foreach ($followings as $user)
+                        <a href="{{ route('users.profile', $user->id) }}" class='cursor-pointer flex flex-col space-y-2 rounded border'>
                             <img src="{{ Storage::url($user->image) }}" class='w-[250px] h-[250px] object-cover'>
                             <span class='text-lg font-semibold p-2'>
                                 {{ $user->name }}
@@ -22,7 +22,7 @@
                                 </form>
                             </div>
 
-                        </div>
+                        </a>
                     @endforeach
                     @else
                         <span class='text-gray-600'>No followers to display.</span>                    

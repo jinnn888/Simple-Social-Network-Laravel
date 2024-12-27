@@ -30,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
 
     // User
     Route::get('/people', [UserController::class, 'index'])->name('users.index');
+    Route::get('/people/profile/{user}', [UserController::class, 'profile'])->name('users.profile');
 
     // Follow 
     Route::post('/follow/{user}', [FollowController::class, 'follow'])->name('follow');

@@ -4,17 +4,19 @@
     ])
     {{-- {{ dd(auth()->user()->followers); }} --}}
     @if ($post)
-    <div class='shadow-sm  p-2'>
+    <div class='shadow-sm  w-full p-2'>
         <div class='flex flex-row space-x-4'>
             <img src="{{ Storage::url($post->user->image) }}" class='rounded-full overflow-hidden w-[50px] h-[50px] object-cover'>
             <div class='flex flex-col'>
                 <span class='block flex flex-row gap-2 items-center'>
+                    <a href="{{ route('users.profile', $post->user->id) }}" class='hover:underline'>
                     {{ $post->user->name }} 
-                    @if (auth()->user()->following->contains($post->user->id))
+                    </a>
+                    @if (auth()->user()->followings->contains($post->user->id))
                         <span class='text-gray-500 text-sm'>following</span>
                     @endif
                     @cannot('update',   $post)
-                        @if (!auth()->user()->following->contains($post->user->id))
+                        @if (!auth()->user()->followings->contains($post->user->id))
                         <form action='{{ route('follow', $post->user->id) }}' method='POST'>
                             @csrf
                             <button class='ml-2 text-gray-600 text-sm'>Follow</button>
@@ -98,8 +100,10 @@
             @foreach ($comments as $comment)
             <div class='flex flex-col border p-2 mt-4'>
                 <div class='flex flex-row space-x-2 items-center'>
-                    <span class=' text-gray-800 flex flex-row items-center gap-2 mb-2'>
-                        <img class='w-[50px] object-cover bg-gray-100' src="{{ asset(Storage::url($comment->user->image)) }}">
+                    <span class='text-gray-800 flex flex-row items-center gap-2 mb-2'>
+                        <a href='{{ route('users.profile', $comment->user->id) }}'>
+                        <img class='w-[50px] object-cover bg-gray-100' src="{{ asset(Storage::url($comment->user->image)) }}"> 
+                        </a>
                         {{ $comment->user->name }}
                     </span>
                     <span class='text-sm text-gray-600'> {{ $comment->created_at->diffInMinutes() < 1 ? 'Just now': $comment->created_at->diffForHumans() }}</span>

@@ -4,7 +4,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-col items-center">
                 <div class='flex flex-col space-y-2 my-2 w-full p-4'>
                     <div class="p-2 cursor-pointer border rounded-lg toggle-post w-full">
-                        <span class='text-gray-500 text-sm'>Whats on your mind? </span>
+                        <span class='text-gray-500 text-sm font-bold'>何を考えていますか？</span>
                     </div>
                     <div class='post-container'>
                         @foreach ($posts as $post)
@@ -19,7 +19,7 @@
     <div class="relative w-10/12   bg-white rounded-lg shadow-lg">
         <!-- Modal Header -->
         <div class="flex items-center justify-between px-4 py-2 border-b">
-            <x-input-label>What's your thoughts for today?</x-input-label>
+            <x-input-label class=''>何を投稿しますか？</x-input-label>
             <button id="close-modal" class="text-gray-500 hover:text-gray-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
