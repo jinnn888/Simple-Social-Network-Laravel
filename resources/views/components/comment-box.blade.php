@@ -25,7 +25,7 @@
                     </button>
                 </div>
 
-                <span class="text-gray-500 text-sm mt-2">Total comments: {{ $comments->count() }}</span>
+                <span class="text-gray-500 text-sm mt-2">Total comments: <span class='comment-count-{{ $post->id }}'>{{ $comments->count() }}</span></span>
             </form>
 
             {{-- Comments List --}}
@@ -83,10 +83,10 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(response){
+                        $('.comment-count-{{ $post->id }}').html(`${response.length}`);
                         $(`.comment-box-{{ $post->id }}`).empty();
                         console.log(response)
                         $.each(response, function(key, comment) {
-                            console.log(key, comment)
                             $(`.comment-box-{{ $post->id }}`).append(`
                                 <div class="flex flex-col border p-2 mt-4">
                     <div class="flex flex-row space-x-2 items-center">

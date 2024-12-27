@@ -22,7 +22,6 @@ class CommentController extends Controller
         }])->where('id', $id)->first();
 
         $comments = $post->comments;
-
         return response()->json($comments);
     }
 
