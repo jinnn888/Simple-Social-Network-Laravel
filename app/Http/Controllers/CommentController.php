@@ -8,30 +8,18 @@ use App\Models\Post;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
     public function fetch(string $id) {
-        $post = Post::with(['comments.user' => function($query) {
-            $query->orderBy('created_at', 'desc');
-        }])->where('id', $id)->first();
-
-        $comments = $post->comments;
-        return response()->json($comments);
+        $post = Post::with('comments.user')->find($id);
+        // $comments = $post->comments;
+        return response()->json($post);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function getCount(string $id) {
+        $post = Post::find($id);
+        $count = $post->comments->count();
+        return response()->json($count);
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -42,9 +30,10 @@ class CommentController extends Controller
             'post_id' => 'required',
         ]);
         Comment::create([
-            'user_id' => auth()->user()->id,
-            'post_id' => $request->post_id,
+            'commentable_id' => $request->post_id,
+            'commentable_type' => 'App\Models\Post',
             'content' => $request->content,
+            'user_id' => auth()->user()->id
         ]);
 
         return response()->json('Comment posted.');

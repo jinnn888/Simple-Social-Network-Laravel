@@ -83,10 +83,9 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(response){
-                        $('.comment-count-{{ $post->id }}').html(`${response.length}`);
+                        $('.comment-count-{{ $post->id }}').html(`${response.comments.length}`);
                         $(`.comment-box-{{ $post->id }}`).empty();
-                        console.log(response)
-                        $.each(response, function(key, comment) {
+                        $.each(response.comments, function(key, comment) {
                             $(`.comment-box-{{ $post->id }}`).append(`
                                 <div class="flex flex-col border p-2 mt-4">
                     <div class="flex flex-row space-x-2 items-center">
@@ -123,12 +122,10 @@
 
             $('#comment-form-{{ $post->id }}').on('submit', function(e) {
                 e.preventDefault()
-                console.log($(this).data('post-id'))
                 const postId = $('#comment-form-{{ $post->id }}').data('post-id')
                 // const content = $(`#content-${postId}`);
 
                 const content = $(`#content-${postId}`).val();
-                console.log(postId, content)
                 $.ajax({
                     url: '{{ route('comments.store') }}',
                     type: 'POST',

@@ -23,12 +23,11 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $.ajax({
-            url: '{{ route('comments.fetch', $post->id) }}',
+            url: '{{ route('comments.get-count', $post->id) }}',
             type: 'GET',
             dataType: 'json',
-            success: function(response) {
-                console.log(response)
-                $('.comment-count-{{ $post->id }}').html(`${response.length}`);
+            success: function(count) {
+                $('.comment-count-{{ $post->id }}').html(`${count}`);
             },
         })
     })
